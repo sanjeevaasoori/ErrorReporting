@@ -1,0 +1,21 @@
+{
+    "name": "sanjeevaasoori/error-reporting",
+    "description": "A simple PHP error reporting class",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sanjeev\\Custom\\": "src/"
+        }
+    },
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "sanjeevaasoori",
+            "email": "sanjeev.a.rangaswamy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0"
+    }
+}

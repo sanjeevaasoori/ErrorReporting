@@ -5,8 +5,12 @@ namespace Sanjeev\Custom;
 class ErrorReporting
 {
     private static array $messages = [];
+    private static $initiated = false;
     public static function init()
     {
+        if(static::$initiated){
+            return;
+        }
         error_reporting(0);
         set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline) {
             static::echo([
@@ -23,6 +27,7 @@ class ErrorReporting
                 ]);
             }
         });
+        static::$initiated = true;
     }
     public static function echo(mixed $args, bool $use_var_dump = false, bool $auto_exit = false)
     {
@@ -31,7 +36,7 @@ class ErrorReporting
         } else {
             echo "<pre>", json_encode($args, JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE), "</pre>";
         }
-        if($auto_exit) {
+        if ($auto_exit) {
             exit(1);
         }
     }

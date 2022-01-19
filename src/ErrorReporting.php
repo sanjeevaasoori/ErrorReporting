@@ -6,14 +6,14 @@ class ErrorReporting
 {
     private static array $messages = [];
     private static $initiated = false;
-    private static $enableLog = false;
-    public static function init($enableLog = false)
+    private static $enable_logging = false;
+    public static function init($enable_logging = false)
     {
         if (static::$initiated) {
             return;
         }
-        if ($enableLog === true) {
-            static::$enableLog = true;
+        if ($enable_logging === true) {
+            static::$enable_logging = true;
         }
         error_reporting(0);
         set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline) {
@@ -21,7 +21,7 @@ class ErrorReporting
                 'error' => ['line' => $errline, 'file' => $errfile, 'msg' => $errstr],
                 'trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
             ]);
-            if (static::$enableLog === true) {
+            if (static::$enable_logging === true) {
                 $file = getcwd() . '/errorlog.txt';
                 file_put_contents($file, serialize([
                     'error' => ['line' => $errline, 'file' => $errfile, 'msg' => $errstr],
@@ -36,7 +36,7 @@ class ErrorReporting
                     'error' => ['line' => $error['line'], 'file' => $error['file'], 'msg' => $error['message']],
                     'trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
                 ]);
-                if (static::$enableLog === true) {
+                if (static::$enable_logging === true) {
                     $file = getcwd() . '/errorlog.txt';
                     file_put_contents($file, serialize([
                         'error' => ['line' => $error['line'], 'file' => $error['file'], 'msg' => $error['message']],

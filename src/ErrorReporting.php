@@ -6,9 +6,9 @@ class ErrorReporting
 {
     private static array $messages = [];
     private static $initiated = false;
-    public static function init()
+    public static function init($enableLog = false)
     {
-        if(static::$initiated){
+        if (static::$initiated) {
             return;
         }
         error_reporting(0);
@@ -27,6 +27,13 @@ class ErrorReporting
                 ]);
             }
         });
+        if ($enableLog === true) {
+            $file = getcwd() . '/errorlog.txt';
+            file_put_contents($file, serialize([
+                'error' => ['line' => $errline, 'file' => $errfile, 'msg' => $errstr],
+                'trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
+            ]), FILE_APPEND | LOCK_EX);
+        }
         static::$initiated = true;
     }
     public static function echo(mixed $args, bool $use_var_dump = false, bool $auto_exit = false)

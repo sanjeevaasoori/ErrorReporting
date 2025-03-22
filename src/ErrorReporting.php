@@ -28,7 +28,7 @@ class ErrorReporting
                     'trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
                 ]), FILE_APPEND | LOCK_EX);
             }
-        }, E_ALL | E_STRICT);
+        }, E_ALL);
         register_shutdown_function(function () {
             $error = error_get_last();
             if ($error !== null) {
